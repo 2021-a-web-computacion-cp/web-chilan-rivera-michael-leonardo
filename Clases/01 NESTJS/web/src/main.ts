@@ -1,12 +1,34 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+//IMPORTAR COSAS EN js
+const cookieParser = require('cookie-parser');
+const express = require('express');
+const session = require('express-session');
+const FileStore = require('session-file-store')(session);
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  app.use(express.static('publico')); // servidor web estatico
+  app.use(cookieParser('Me agradan los poliperros')); //secreto cookies
+  app.use(//session
+      session({
+        name: 'server-session-id',
+        secret: 'No sera de tomar un tragito',
+        resave: 'true',
+        saveUninitialized: true,
+        cookie: {secure: false},
+        store: new FileStore(),
+      }),
+  );
+
   await app.listen(3000); // PUERTO
   //package.json
   //npm run start
 }
+
+
+
 bootstrap();
 /*
 abstract class Nombre {

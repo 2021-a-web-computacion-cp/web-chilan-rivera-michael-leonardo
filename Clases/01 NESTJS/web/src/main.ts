@@ -27,8 +27,6 @@ async function bootstrap() {
   //npm run start
 }
 
-
-
 bootstrap();
 /*
 abstract class Nombre {
@@ -61,8 +59,8 @@ abstract class Nombre {
     return 'string';
   }
 }
-
- package.json
+/*
+package.json
 // VARIABLES
 // TIPOS DE VARIABLES
 
@@ -127,19 +125,31 @@ let objetoEdad = {
 };
 let otraEdadObjeto = objetoEdad; // REFERENCIA
 otraEdadObjeto.edad = otraEdadObjeto.edad + 1; //23
-console.log(otraEdad.edad);
+console.log(otraEdadObjeto.edad);
 objetoEdad.edad; //23
 console.log(otraEdadObjeto.edad);
 objetoEdad.edad = objetoEdad.edad + 1; //24
 otraEdadObjeto.edad; //24
-let otraEdadObjetoClonado = {...objetoEdad}; //Clonación Ojetos
+let otraEdadObjetoClonado = {...objetoEdad}; //Clonación Objetos
 const arregloEjemplo = [1,2,3]
 let arregloClonado = [...arregloEjemplo]; // Clonación Arreglos
 
 //ARREGLOS EN TYPESCRIPT
 //solo aceptan un tipo
+const arregloTodo = [1, '', true, null, new Date()];
+const arregloNumeros: number[] = [1, 2, 3, 4, 5];
 
+function funcionConNombre() {}
 
+const indice = arregloNumeros.findIndex(
+    (numero) => {// Funcion Anonima porque no tiene nombre
+        const elValorEsIgualATres: boolean = numero === 3;
+        return elValorEsIgualATres // Condicion -> boolean
+    },
+)
+//function () { -> funcion anonima porque no tiene nombre
+//
+//}
 
 arregloNumeros[indice] = 6;
 //agrgar al final

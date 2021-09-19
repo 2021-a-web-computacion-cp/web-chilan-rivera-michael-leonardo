@@ -5,7 +5,7 @@ import {
   Header,
   Headers,
   HttpCode,
-  InternalServerErrorException, Param, Post, Query,
+  InternalServerErrorException, Param, Post, Put, Query,
   Req,
   Res
 } from '@nestjs/common';
@@ -101,6 +101,146 @@ export class AppController {
     return {
       parametrosCuerpo: bodyParams,
       cabeceras: cabecerasPeticion,
+    };
+  }
+  // Deber03-------------------------------------------------------
+  @Get('suma/:numeroUno/:numeroDos')
+  @HttpCode(200)
+  suma(@Param() parametros, @Req() req, @Res({ passthrough: true }) res) {
+
+    const parametrosRuta = parametros;
+    const numeroUno = Number(parametrosRuta['numeroUno'].toString());
+    const numeroDos = Number(parametrosRuta['numeroDos'].toString());
+
+    const result = operacionesMatematicas(res, req, 'suma', numeroUno, numeroDos);
+    const resultadoSuma = result.resultadoOperacion;
+    const cookie = result.cookie;
+
+    return {
+      parametrosRuta,
+      resultadoSuma,
+      cookie,
+    };
+  }
+
+  @Post('resta')
+  @HttpCode(201)
+  resta(
+      @Body() bodyParams,
+      @Headers() cabecerasPeticion,
+      @Req() req,
+      @Res({ passthrough: true }) res,
+  ) {
+    const parametrosdeCuerpo = bodyParams;
+    const numeroUno = Number(parametrosdeCuerpo['numeroUno'].toString());
+    const numeroDos = Number(parametrosdeCuerpo['numeroDos'].toString());
+
+    const result = operacionesMatematicas(res, req, 'resta', numeroUno, numeroDos);
+    const resultadoResta = result.resultadoOperacion;
+    const cookie = result.cookie;
+
+    return {
+      parametrosdeCuerpo,
+      resultadoResta,
+      cookie,
+    };
+  }
+
+  @Put('multiplicacion')
+  @HttpCode(200)
+  multiplicacion(@Body() params, @Req() req, @Res({ passthrough: true }) res) {
+    const parametros = params;
+    const numeroUno = Number(parametros['numeroUno'].toString());
+    const numeroDos = Number(parametros['numeroDos'].toString());
+
+    const result = operacionesMatematicas(res, req, 'multiplicacion', numeroUno, numeroDos);
+    const resultadoMultiplicacion = result.resultadoOperacion;
+    const cookie = result.cookie;
+
+    return {
+      parametros,
+      resultadoMultiplicacion,
+      cookie,
+    };
+  }
+
+  @Get('division/:numeroUno/:numeroDos')
+  @HttpCode(200)
+  division(@Param() params, @Req() req, @Res({ passthrough: true }) res) {
+
+    const parametrosRuta = params;
+    const numeroUno = Number(parametrosRuta['numeroUno'].toString());
+    const numeroDos = Number(parametrosRuta['numeroDos'].toString());
+
+    const result = operacionesMatematicas(res, req, 'division', numeroUno, numeroDos);
+    const resultadoDivision = result.resultadoOperacion;
+    const cookie = result.cookie;
+
+    return {
+      parametrosRuta,
+      resultadoDivision,
+      cookie,
+    };
+  }
+}
+
+function operacionesMatematicas(res, req, operacion, numeroUno, numeroDos) {
+
+  let resultadoOperacionNumber: number;
+
+  const cookie = req.signedCookies;
+  const valorCookie = cookie['cookieNumero'];
+
+  switch (operacion) {
+    case 'suma': {
+      resultadoOperacionNumber = numeroUno + numeroDos;
+      break;
+    }
+    case 'resta': {
+      resultadoOperacionNumber = numeroUno - numeroDos;
+      break;
+    }
+    case 'multiplicacion': {
+      resultadoOperacionNumber = numeroUno * numeroDos;
+      break;
+    }
+    case 'division': {
+      resultadoOperacionNumber = numeroUno / numeroDos;
+      break;
     }
   }
+
+  if (valorCookie == undefined) {
+    const nuevoValor = 100 - resultadoOperacionNumber;
+    res.cookie(
+        'cookieNumero', //Nombre
+        String(nuevoValor), // Valor
+        {
+          signed: true,
+        },
+    );
+    cookie['cookieNumero'] = String(nuevoValor);
+    console.log('Se seteo la cookie');
+  } else {
+    const nuevoValor = Number(valorCookie) - resultadoOperacionNumber;
+    if (nuevoValor > 0) {
+      cookie['cookieNumero'] = String(nuevoValor);
+      res.cookie('cookieNumero', String(nuevoValor), {
+        signed: true,
+      });
+      console.log('Ya existe una cookie, valor actualizado');
+      console.log('Nuevo Valor: ' + cookie['cookieNumero']);
+    } else {
+      res.cookie('cookieNumero', '100', {
+        signed: true,
+      });
+      cookie['cookieNumero'] = '100';
+      res.send('Terminaste el juego, cookie seteada en 100');
+    }
+  }
+  const resultadoOperacion = String(resultadoOperacionNumber);
+  return {
+    cookie,
+    resultadoOperacion,
+  };
 }

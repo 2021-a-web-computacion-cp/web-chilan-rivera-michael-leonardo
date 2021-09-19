@@ -21,4 +21,24 @@ export declare class AppController {
         parametrosCuerpo: any;
         cabeceras: any;
     };
+    suma(parametros: any, req: any, res: any): {
+        parametrosRuta: any;
+        resultadoSuma: string;
+        cookie: any;
+    };
+    resta(bodyParams: any, cabecerasPeticion: any, req: any, res: any): {
+        parametrosdeCuerpo: any;
+        resultadoResta: string;
+        cookie: any;
+    };
+    multiplicacion(params: any, req: any, res: any): {
+        parametros: any;
+        resultadoMultiplicacion: string;
+        cookie: any;
+    };
+    division(params: any, req: any, res: any): {
+        parametrosRuta: any;
+        resultadoDivision: string;
+        cookie: any;
+    };
 }

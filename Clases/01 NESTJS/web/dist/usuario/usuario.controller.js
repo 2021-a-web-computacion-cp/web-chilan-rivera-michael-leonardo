@@ -15,11 +15,28 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UsuarioController = void 0;
 const common_1 = require("@nestjs/common");
 const usuario_service_1 = require("./usuario.service");
+const usuario_crear_dto_1 = require("./dto/usuario-crear.dto");
+const class_validator_1 = require("class-validator");
 let UsuarioController = class UsuarioController {
     constructor(usuarioService) {
         this.usuarioService = usuarioService;
     }
+    listaUsuarios(response) {
+        response.render('inicio.ejs');
+    }
     obtenerUno(parametrosRuta) {
+        this.usuarioService.crearUno({
+            apellido: '...',
+            fechaCreacion: new Date(),
+            nombre: '...',
+        });
+        this.usuarioService.actualizarUno({
+            id: 1,
+            data: {
+                nombre: '...',
+            },
+        });
+        this.usuarioService.eliminarUno(1);
         return this.usuarioService.buscarUno(+parametrosRuta.idUsuario);
     }
     actualizarUno(params) {
@@ -34,19 +51,38 @@ let UsuarioController = class UsuarioController {
             where: objetoWhere,
             data: objetoUsuarioUpdate,
         };
-        return this.usuarioService.actualizarUno(parametrosActualizar);
+        return this.usuarioService.actualizarUno(params);
     }
-    crearUno(bodyParams) {
-        const objetoUsuario = {
-            apellido: bodyParams.apellido,
-            nombre: bodyParams.nombre,
-        };
-        return this.usuarioService.crearUno(objetoUsuario);
+    async crearUno(bodyParams) {
+        const usuarioCrearDto = new usuario_crear_dto_1.UsuarioCrearDto();
+        usuarioCrearDto.nombre = bodyParams.nombre;
+        usuarioCrearDto.apellido = bodyParams.apellido;
+        usuarioCrearDto.fechaCreacion = bodyParams.fechaCreacion;
+        try {
+            const errores = await (0, class_validator_1.validate)(usuarioCrearDto);
+            if (errores.length > 0) {
+                throw new common_1.BadRequestException('No envía bien los parámetros');
+            }
+            else {
+                return this.usuarioService.crearUno(usuarioCrearDto);
+            }
+        }
+        catch (error) {
+            console.error({ error: error, mensaje: 'Errores en crear usuario' });
+            throw new common_1.InternalServerErrorException('Error servidor');
+        }
     }
     eliminarUno(parametro) {
         return this.usuarioService.eliminarUno(+parametro.idUsuario);
     }
 };
+__decorate([
+    (0, common_1.Get)('lista-usuarios'),
+    __param(0, (0, common_1.Res)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], UsuarioController.prototype, "listaUsuarios", null);
 __decorate([
     (0, common_1.Get)(':idUsuario'),
     __param(0, (0, common_1.Param)()),
@@ -66,7 +102,7 @@ __decorate([
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], UsuarioController.prototype, "crearUno", null);
 __decorate([
     (0, common_1.Delete)(':idUsuario'),

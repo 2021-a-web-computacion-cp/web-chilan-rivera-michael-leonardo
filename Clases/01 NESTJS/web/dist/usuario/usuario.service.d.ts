@@ -6,7 +6,7 @@ export declare class UsuarioService {
     buscarUno(id: number): Prisma.Prisma__EPN_USUARIOClient<import(".prisma/client").EPN_USUARIO>;
     crearUno(usuario: Prisma.EPN_USUARIOCreateInput): Prisma.Prisma__EPN_USUARIOClient<import(".prisma/client").EPN_USUARIO>;
     actualizarUno(parametrosActualizar: {
-        where: Prisma.EPN_USUARIOWhereUniqueInput;
+        id: number;
         data: Prisma.EPN_USUARIOUpdateInput;
     }): Prisma.Prisma__EPN_USUARIOClient<import(".prisma/client").EPN_USUARIO>;
     eliminarUno(id: number): Prisma.Prisma__EPN_USUARIOClient<import(".prisma/client").EPN_USUARIO>;

@@ -22,12 +22,12 @@ export class UsuarioService {
         });
     }
     actualizarUno(parametrosActualizar:{
-        where: Prisma.EPN_USUARIOWhereUniqueInput;
+        id: number;
         data: Prisma.EPN_USUARIOUpdateInput;
     }) {
         return this.prisma.ePN_USUARIO.update({
             data: parametrosActualizar.data,
-            where: parametrosActualizar.where,
+            where: {id : parametrosActualizar.id,}
         });
     }
     eliminarUno(id: number){

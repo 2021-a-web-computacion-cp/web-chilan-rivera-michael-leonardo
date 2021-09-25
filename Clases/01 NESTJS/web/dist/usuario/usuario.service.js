@@ -16,6 +16,21 @@ let UsuarioService = class UsuarioService {
     constructor(prisma) {
         this.prisma = prisma;
     }
+    buscarMuchos(parametrosBusqueda) {
+        const or = parametrosBusqueda.busqueda
+            ? {
+                OR: [
+                    { nombre: { contains: parametrosBusqueda.busqueda } },
+                    { apellido: { contains: parametrosBusqueda.busqueda } },
+                ],
+            }
+            : {};
+        return this.prisma.ePN_USUARIO.findMany({
+            where: or,
+            take: Number(parametrosBusqueda.take) || undefined,
+            skip: Number(parametrosBusqueda.skip) || undefined,
+        });
+    }
     buscarUno(id) {
         return this.prisma.ePN_USUARIO.findUnique({
             where: {

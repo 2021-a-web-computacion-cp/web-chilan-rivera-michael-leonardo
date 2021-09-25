@@ -7,7 +7,7 @@ import {
     InternalServerErrorException,
     Param,
     Post,
-    Put,
+    Put, Query,
     Res
 } from '@nestjs/common';
 import {UsuarioService} from "./usuario.service";
@@ -27,9 +27,29 @@ export class UsuarioController {
         response.render('inicio.ejs');
     }
 
+    @Get('vista-crear')
+    vistaCrear(@Res() response) {
+        response.render('usuario/crear.ejs');
+    }
+
     @Get('lista-usuarios')
-    listaUsuarios(@Res() response) {
-        response.render('usuario/lista.ejs');
+    async listaUsuarios(@Res() response, @Query() parametrosConsulta) {
+        try {
+            // validar parametros de consulta con un dto
+            const respuesta = await this.usuarioService.buscarMuchos({
+                skip: parametrosConsulta.skip ? +parametrosConsulta.skip: undefined,
+                take: parametrosConsulta.take ? +parametrosConsulta.take: undefined,
+                busqueda: parametrosConsulta.busqueda ? parametrosConsulta.busqueda: undefined,
+            });
+            console.log(respuesta);
+            response.render('usuario/lista.ejs', {
+                datos: {
+                    usuarios: respuesta,
+                },
+            });
+        } catch (error) {
+            throw new InternalServerErrorException('Error del servidor');
+        }
     }
 
     @Get(':idUsuario')
@@ -50,6 +70,7 @@ export class UsuarioController {
         this.usuarioService.eliminarUno(1);
         return this.usuarioService.buscarUno(+parametrosRuta.idUsuario);
     }
+
     @Put('/:idUsuario/:apellido/:nombre')
     actualizarUno(@Param() params) {
         const objetoWhere: Prisma.EPN_USUARIOWhereUniqueInput = {
@@ -89,6 +110,4 @@ export class UsuarioController {
     eliminarUno(@Param() parametro) {
         return this.usuarioService.eliminarUno(+parametro.idUsuario);
     }
-
-
 }

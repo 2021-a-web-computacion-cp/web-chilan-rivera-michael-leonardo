@@ -22,9 +22,14 @@ export class UsuarioController {
         private usuarioService: UsuarioService,
     ) {}
 
+    @Get('inicio')
+    inicio(@Res() response) {
+        response.render('inicio.ejs');
+    }
+
     @Get('lista-usuarios')
     listaUsuarios(@Res() response) {
-        response.render('inicio.ejs');
+        response.render('usuario/lista.ejs');
     }
 
     @Get(':idUsuario')

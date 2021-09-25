@@ -1,1 +1,33 @@
+<%- include('./comunes/cabecera.ejs') %>
+
+
 <h1>Hola mundo</h1>
+<!-- <% %> Todo lo que esta dentro de esto es JS -->
+<!-- Mostrar = -->
+<p><%= "Hola" %></p>
+<p><%= 15 %></p>
+<!--- Ejecutar -->
+<% const michael = {nombre: "Michael", apellido: "Chilan", cedula: "17..."} %>
+<% const numero = 25 %>
+<% const mensaje = "Hola" %>
+<!--- Ejemplo -->
+<p><%= michael.nombre %> <%= numero%> <%=mensaje%> </p>
+
+<% const aprobado = true %>
+
+<% if (aprobado){ %>
+    <p>Aprobado!</p>
+<% } else { %>
+    <p>Rechazado</p>
+<% } %>
+
+<% const arregloNumeros = [1, 2, 3, 4, 5]%>
+
+<ul>
+    <% arregloNumeros.forEach( (objeto) => { %>
+        <li> <%= objeto %></li>
+    <% }) %>
+</ul>
+
+
+<%- include('./comunes/footer.ejs') %>

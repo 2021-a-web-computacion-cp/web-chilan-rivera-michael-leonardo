@@ -16,13 +16,12 @@ async function bootstrap() {
       session({
         name: 'server-session-id',
         secret: 'No sera de tomar un tragito',
-        resave: 'true',
+        resave: true,
         saveUninitialized: true,
         cookie: {secure: false},
         store: new FileStore(),
       }),
   );
-
   await app.listen(3000); // PUERTO
   //package.json
   //npm run start

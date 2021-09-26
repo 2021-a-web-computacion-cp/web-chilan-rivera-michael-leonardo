@@ -2,6 +2,13 @@
 <!-- Mover link bootstrap a la cabecera -->
 <!-- abajo de la etiqueta title -->
 <div class='container'>
+    <% const existeMensaje = typeof datos.mensaje !== 'undefined' %>
+    <% if(existeMensaje){ %>
+        <div class="alert alert-danger" role="alert">
+            <%= datos.mensaje %>
+        </div>
+    <%}%>
+
     <h1>Lista</h1>
     <form action='/usuario/lista-usuarios' method='get'>
         <div class="mb-3">
@@ -9,7 +16,7 @@
                 Búsqueda
             </label>
             <!-- Viajar como parametro de consulta con el name (en este caso busqueda) -->
-            <input placeholder="Ej: Adri"
+            <input placeholder="Ej: Michael"
                    type="text"
                    name="busqueda"
                    class="form-control"
@@ -46,7 +53,11 @@
             <td><%= objeto.nombre %></td>
             <td><%= objeto.apellido %></td>
             <th><button class="btn btn-outline-secondary">Actualizar</button></th>
-            <th><button class='btn btn-danger'>Eliminar</button></th>
+            <th>
+                <form action='/usuario/eliminar-usuario/<%= objeto.id %>' method='post'>
+                    <button class='btn btn-danger'>Eliminar</button>
+                </form>
+            </th>
         </tr>
         <% } ) %>
         </tbody>

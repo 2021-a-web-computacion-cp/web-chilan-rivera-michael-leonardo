@@ -21,11 +21,39 @@ let UsuarioController = class UsuarioController {
     constructor(usuarioService) {
         this.usuarioService = usuarioService;
     }
+    async eliminarUsuario(response, parametrosRuta) {
+        try {
+            await this.usuarioService.eliminarUno(+parametrosRuta.idUsuario);
+            response.redirect('/usuario/lista-usuarios' + '?mensaje=Se eliminó al usuario');
+        }
+        catch (error) {
+            console.error(error);
+            throw new common_1.InternalServerErrorException('Error');
+        }
+    }
+    async crearUsuarioFormulario(response, parametrosCuerpo) {
+        try {
+            const respuestaUsuario = await this.usuarioService.crearUno({
+                nombre: parametrosCuerpo.nombre,
+                apellido: parametrosCuerpo.apellido,
+            });
+            response.redirect('/usuario/vista-crear' +
+                '?mensaje=Se creó el usuario ' + parametrosCuerpo.nombre);
+        }
+        catch (error) {
+            console.error(error);
+            throw new common_1.InternalServerErrorException('Error creando usuario');
+        }
+    }
     inicio(response) {
         response.render('inicio.ejs');
     }
-    vistaCrear(response) {
-        response.render('usuario/crear.ejs');
+    vistaCrear(response, parametrosConsulta) {
+        response.render('usuario/crear.ejs', {
+            datos: {
+                mensaje: parametrosConsulta.mensaje,
+            },
+        });
     }
     async listaUsuarios(response, parametrosConsulta) {
         try {
@@ -38,6 +66,7 @@ let UsuarioController = class UsuarioController {
             response.render('usuario/lista.ejs', {
                 datos: {
                     usuarios: respuesta,
+                    mensaje: parametrosConsulta.mensaje,
                 },
             });
         }
@@ -98,6 +127,22 @@ let UsuarioController = class UsuarioController {
     }
 };
 __decorate([
+    (0, common_1.Post)('eliminar-usuario/:idUsuario'),
+    __param(0, (0, common_1.Res)()),
+    __param(1, (0, common_1.Param)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", Promise)
+], UsuarioController.prototype, "eliminarUsuario", null);
+__decorate([
+    (0, common_1.Post)('crear-usuario-formulario'),
+    __param(0, (0, common_1.Res)()),
+    __param(1, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", Promise)
+], UsuarioController.prototype, "crearUsuarioFormulario", null);
+__decorate([
     (0, common_1.Get)('inicio'),
     __param(0, (0, common_1.Res)()),
     __metadata("design:type", Function),
@@ -107,8 +152,9 @@ __decorate([
 __decorate([
     (0, common_1.Get)('vista-crear'),
     __param(0, (0, common_1.Res)()),
+    __param(1, (0, common_1.Query)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
+    __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", void 0)
 ], UsuarioController.prototype, "vistaCrear", null);
 __decorate([

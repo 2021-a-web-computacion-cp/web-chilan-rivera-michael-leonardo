@@ -11,7 +11,7 @@
     <%}%>
 
     <h1>Agregar computadora</h1>
-    <form action='/computadora/crear-computadora-formulario' method='post'>
+    <form action='/computadora/agregar-computadora-formulario' method='post'>
         <div class="mb-3">
             <label for="marca" class="form-label">
                 Marca*
@@ -71,7 +71,7 @@
         </div>
         <div class="mb-3">
             <label for="cantidad" class="form-label">
-                Tipo*
+                Cantidad*
             </label>
             <input placeholder="Ej: 25"
                    type="text"
@@ -80,7 +80,7 @@
                    id="cantidad"
                    aria-describedby="ayudaCantidad">
             <div id="ayudaCantidad" class="form-text">
-                Ingrese el precio de la computadora.
+                Ingrese la cantidad.
             </div>
         </div>
         <button type="submit" class="btb btn-primary w-100">Agregar</button>

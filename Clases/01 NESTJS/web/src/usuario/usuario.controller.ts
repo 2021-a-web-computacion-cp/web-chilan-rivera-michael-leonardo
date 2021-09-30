@@ -12,8 +12,8 @@ import {
 } from '@nestjs/common';
 import {UsuarioService} from "./usuario.service";
 import {Prisma} from "@prisma/client";
-import {UsuarioCrearDto} from "./dto/usuario-crear.dto";
 import {validate} from "class-validator";
+import {UsuarioCrearDto} from "./dto/usuario-crear.dto";
 
 // http://localhost:3000/usuario/......
 @Controller('usuario')

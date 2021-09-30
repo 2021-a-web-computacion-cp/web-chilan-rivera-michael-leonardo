@@ -29,7 +29,7 @@
         <button type="submit" class="btn btn-primary w-100">Buscar</button>
     </form>
     <div>
-        <a href='/computadora/vista-computadora'>
+        <a href='/computadora/vista-crear'>
             <button class='btn btn-success'>
                 Agregar nueva computadora
             </button>
@@ -41,6 +41,7 @@
             <th scope="col">#</th>
             <th scope="col">Marca</th>
             <th scope="col">Tipo</th>
+            <th scope="col">Precio</th>
             <th scope="col">Fecha de Subida</th>
             <th scope="col">Disponible</th>
             <th scope="col">Cantidad</th>
@@ -50,15 +51,19 @@
         </thead>
         <tbody>
 
-        <% datos.usuarios.forEach( (objeto) => { %>
+        <% datos.computadoras.forEach( (objeto) => { %>
             <tr>
                 <th><%= objeto.id %></th>
                 <td><%= objeto.marca %></td>
                 <td><%= objeto.tipo %></td>
+                <td><%= objeto.precio %></td>
                 <td><%= objeto.fechaSubida %></td>
                 <td><%= objeto.disponible %></td>
                 <td><%= objeto.cantidad %></td>
-                <th><button class="btn btn-outline-secondary">Actualizar</button></th>
+                <th>
+                    <form action='/computadora/actualizar-computadora/<%= objeto.id %>' method='post'>
+                        <button class="btn btn-outline-secondary">Actualizar</button>
+                    </form>
                 <th>
                     <form action='/computadora/eliminar-computadora/<%= objeto.id %>' method='post'>
                         <button class='btn btn-danger'>Eliminar</button>

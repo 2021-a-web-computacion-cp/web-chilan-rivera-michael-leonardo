@@ -1,33 +1,16 @@
 <%- include('./comunes/cabecera.ejs') %>
 
 
-<h1>Hola mundo</h1>
-<!-- <% %> Todo lo que esta dentro de esto es JS -->
-<!-- Mostrar = -->
-<p><%= "Hola" %></p>
-<p><%= 15 %></p>
-<!--- Ejecutar -->
-<% const michael = {nombre: "Michael", apellido: "Chilan", cedula: "17..."} %>
-<% const numero = 25 %>
-<% const mensaje = "Hola" %>
-<!--- Ejemplo -->
-<p><%= michael.nombre %> <%= numero%> <%=mensaje%> </p>
+<div style="height: 600px;
+    /*width: 90%;*/
+    background-image: url('https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.ionos.es%2Fdigitalguide%2Fservidores%2Fknow-how%2Fque-es-una-red-de-ordenadores%2F&psig=AOvVaw3wNOz6j9KYW0yLMNgnjo44&ust=1633076774804000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCKjRwZujpvMCFQAAAAAdAAAAABAJ');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    justify-content: center;
+    box-sizing: border-box;  ">
 
-<% const aprobado = true %>
-
-<% if (aprobado){ %>
-    <p>Aprobado!</p>
-<% } else { %>
-    <p>Rechazado</p>
-<% } %>
-
-<% const arregloNumeros = [1, 2, 3, 4, 5]%>
-
-<ul>
-    <% arregloNumeros.forEach( (objeto) => { %>
-        <li> <%= objeto %></li>
-    <% }) %>
-</ul>
+</div>
 
 
 <%- include('./comunes/footer.ejs') %>

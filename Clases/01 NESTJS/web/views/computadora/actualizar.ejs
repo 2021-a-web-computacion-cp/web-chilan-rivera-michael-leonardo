@@ -1,0 +1,62 @@
+<%- include('../comunes/cabecera.ejs') %>
+
+
+
+<div class='container'>
+    <% const existeMensaje = typeof datos.mensaje !== 'undefined' %>
+    <% if(existeMensaje){ %>
+        <div class="alert alert-success" role="alert">
+            <%= datos.mensaje %>
+        </div>
+    <%}%>
+
+    <h1>Actualizar computadora</h1>
+    <form action='/computadora/actualizar-computadora-formulario/<%=datos.computadora.id%>' method='post'>
+        <div class="mb-3">
+            <label for="precio" class="form-label">
+                Precio*
+            </label>
+            <input placeholder="Ej: 9.50"
+                   type="text"
+                   name="precio"
+                   class="form-control"
+                   id="precio"
+                   aria-describedby="ayudaPrecio">
+            <div id="ayudaPrecio" class="form-text">
+                Ingrese el precio de la computadora.
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="disponible" class="form-label">
+                Disponible
+            </label>
+            <select name="disponible"
+                    class="form-control"
+                    id="disponible"
+                    aria-describedby="ayudaDisponible">
+                <option value="true">Disponible</option>
+                <option value="false">No disponible</option>
+            </select>
+            <div id="ayudaDisponible" class="form-text">
+                ¿La computadora está disponible?
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="cantidad" class="form-label">
+                Cantidad*
+            </label>
+            <input placeholder="Ej: 25"
+                   type="text"
+                   name="cantidad"
+                   class="form-control"
+                   id="cantidad"
+                   aria-describedby="ayudaCantidad">
+            <div id="ayudaCantidad" class="form-text">
+                Ingrese la cantidad.
+            </div>
+        </div>
+        <button type="submit" class="btb btn-primary w-100">Actualizar</button>
+    </form>
+</div>
+
+<%- include('../comunes/footer.ejs') %>

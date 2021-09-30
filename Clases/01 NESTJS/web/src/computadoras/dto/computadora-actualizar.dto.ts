@@ -18,5 +18,5 @@ export class ComputadoraActualizarDto {
     @IsNotEmpty()
     @IsNumber()
     @Max(100)
-    cantidad: number
+    cantidad: number;
 }
